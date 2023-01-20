@@ -2,7 +2,7 @@ import {useHttp} from "../components/hooks/http.hook";
 
 
 const useMarvelService = () => {
-    const {loading, error, request} = useHttp();
+    const {loading, error, request, clearError} = useHttp();
 
     const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
     const _apiKey = 'apikey=c60d58c88adfd0f7e02803c0c818876c';
@@ -30,7 +30,7 @@ const useMarvelService = () => {
         }
     }
 
-    return {loading, error, getAllCharacters, getCharacter}
+    return {loading, error, clearError, getAllCharacters, getCharacter}
 }
 
 export default useMarvelService
