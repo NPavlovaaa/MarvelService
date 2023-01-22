@@ -1,9 +1,10 @@
-import './charList.scss';
 import useMarvelService from '../../services/MarvelService';
 import { useState, useEffect, useRef } from 'react';
 import ErrorMessage from '../errorMessage/ErrorMessage'
 import Spinner from '../spinner/Spinner';
 import PropTypes from "prop-types";
+
+import './charList.scss';
 
 
 const CharList = (props) => {
