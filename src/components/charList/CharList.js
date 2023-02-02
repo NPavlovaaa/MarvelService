@@ -1,5 +1,5 @@
 import useMarvelService from '../../services/MarvelService';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import PropTypes from "prop-types";
 import setContentList from "../../utils/setContentList";
 
@@ -78,9 +78,13 @@ const CharList = (props) => {
         )
     }
 
+    const elements = useMemo(() => {
+        return setContentList(process, () => renderItems(charList), newItemLoading);
+    }, [process])
+
     return (
         <div className="char__list">
-            {setContentList(process, () => renderItems(charList), newItemLoading)}
+            {elements}
             <button
                 className="button button__main button__long"
                 onClick={() => (onRequest(offset))}
