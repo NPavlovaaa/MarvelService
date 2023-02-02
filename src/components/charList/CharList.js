@@ -1,8 +1,7 @@
 import useMarvelService from '../../services/MarvelService';
 import { useState, useEffect, useRef } from 'react';
-import ErrorMessage from '../errorMessage/ErrorMessage'
-import Spinner from '../spinner/Spinner';
 import PropTypes from "prop-types";
+import setContentList from "../../utils/setContentList";
 
 import './charList.scss';
 
@@ -13,7 +12,7 @@ const CharList = (props) => {
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
 
-   const {loading, error, getAllCharacters} = useMarvelService();
+   const {getAllCharacters, process, setProcess} = useMarvelService();
 
     useEffect(() =>{
         onRequest(offset, true);
@@ -23,6 +22,7 @@ const CharList = (props) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
         getAllCharacters(offset)
             .then(onCharListLoaded)
+            .then(() => setProcess('confirmed'));
     }
 
     const onCharListLoaded = (newCharList) =>{
@@ -31,9 +31,9 @@ const CharList = (props) => {
             ended = true
         }
 
-        setCharList(charList => [...charList, ...newCharList]);
+        setCharList([...charList, ...newCharList]);
         setNewItemLoading(false);
-        setOffset(offset => offset + 9);
+        setOffset(offset + 9);
         setCharEnded(ended);
     }
 
@@ -78,16 +78,9 @@ const CharList = (props) => {
         )
     }
 
-    const items = renderItems(charList);
-
-    const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading && !newItemLoading ? <Spinner/> : null;
-
     return (
         <div className="char__list">
-            {errorMessage}
-            {spinner}
-            {items}
+            {setContentList(process, () => renderItems(charList), newItemLoading)}
             <button
                 className="button button__main button__long"
                 onClick={() => (onRequest(offset))}
