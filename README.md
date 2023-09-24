@@ -20,6 +20,7 @@
 + ReactJS
 + Formik
 + Yup
++ Helmet-react
 + HTML
 + Scss (+ методолгия БЭМ)
 
